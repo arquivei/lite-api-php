@@ -10,8 +10,8 @@
     "lite-api"
   ],
   "require": {
-    "php": "^7.1.3",
-    "monolog/monolog": "^1.23",
+    "php": "7.3.0",
+    "monolog/monolog": "2.*",
     "guzzlehttp/guzzle": "^6.5",
     "vlucas/phpdotenv": "^4.1"
   },
