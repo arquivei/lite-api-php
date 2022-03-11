@@ -6,8 +6,8 @@ use Arquivei\LiteApi\Sdk\Responses\Http\Status as HttpStatus;
 
 class Status
 {
-    private /** HttpStatus */ $status;
-    private /**  BehaviorInterface */ $response;
+    private HttpStatus $status;
+    private BehaviorInterface $response;
 
     public function __construct(BehaviorInterface $response)
     {

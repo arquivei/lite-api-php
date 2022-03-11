@@ -6,8 +6,8 @@ use Arquivei\LiteApi\Sdk\Responses\BehaviorInterface;
 
 class IsSuccess implements BehaviorInterface
 {
-    private /** string */ $accessKey;
-    private /** string */ $status;
+    private string $accessKey;
+    private string $status;
 
     public function getAccessKey(): string
     {

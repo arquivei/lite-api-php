@@ -3,11 +3,11 @@
 namespace Arquivei\LiteApi\Sdk;
 
 use Arquivei\LiteApi\Sdk\Exceptions\UnreadableConfigException;
+use Closure;
 
 class Config
 {
-
-    private /** closure */ $env;
+    private Closure $env;
 
     public function __construct()
     {

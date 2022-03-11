@@ -6,7 +6,7 @@ use Arquivei\LiteApi\Sdk\Responses\BehaviorInterface;
 
 class IsError implements BehaviorInterface
 {
-    private /** string */ $error;
+    private string $error;
 
     public function getError(): string
     {

@@ -7,38 +7,30 @@ use Arquivei\LiteApi\Sdk\Dependencies\HttpInterface;
 use Arquivei\LiteApi\Sdk\Endpoints\NFe;
 use Arquivei\LiteApi\Sdk\Exceptions\HttpConnectionException;
 use Arquivei\LiteApi\Sdk\Exceptions\UnreadableConfigException;
+use Arquivei\LiteApi\Sdk\Requests\NFe as NFeRequest;
+use Arquivei\LiteApi\Sdk\Responses\NFe as NFeResponse;
 use PHPUnit\Framework\TestCase;
 
 class EndpointTest extends TestCase
 {
     public function testIsSuccessfullyResponseFlow()
     {
-
         $httpConnection = $this->createMock(HttpInterface::class);
-        $httpConnection->expects($this->once())->method('get')->willReturn(
-            json_decode(
-                '{
-                          "status": {
-                               "code": 200,
-                               "message": "string"
-                          },
-                          "data": {
-                               "xml": "string"
-                          }
-                      }'
-            , true)
-        );
+        $httpConnection
+            ->expects($this->once())
+            ->method('get')
+            ->willReturn(json_decode('{"status": {"code": 200,"message": "string"},"data": {"xml": "string"}}', true));
 
-        $request = (new \Arquivei\LiteApi\Sdk\Requests\NFe())
+        $request = (new NFeRequest())
             ->setAccessKey("string");
 
         $nfe = new NFe();
         $response = $nfe->execute($httpConnection, $request, (new Config()));
 
-        $this->assertInstanceOf(\Arquivei\LiteApi\Sdk\Responses\NFe::class, $response);
-        $this->assertInstanceOf(\Arquivei\LiteApi\Sdk\Responses\NFe\IsSuccess::class, $response->getResponse());
+        $this->assertInstanceOf(NFeResponse::class, $response);
+        $this->assertInstanceOf(NFeResponse\IsSuccess::class, $response->getResponse());
 
-        $this->assertTrue(method_exists($response->getResponse(),'getXml'));
+        $this->assertTrue(method_exists($response->getResponse(), 'getXml'));
 
         $this->assertEquals(200, $response->getStatus()->getCode());
         $this->assertEquals("string", $response->getStatus()->getMessage());
@@ -47,30 +39,22 @@ class EndpointTest extends TestCase
 
     public function testIsNotSuccessfullyResponseFlow()
     {
-
         $httpConnection = $this->createMock(HttpInterface::class);
-        $httpConnection->expects($this->once())->method('get')->willReturn(
-            json_decode(
-                '{
-                          "status": {
-                            "code": 500,
-                            "message": "string"
-                          },
-                          "errors": "string"
-                       }'
-                , true)
-        );
+        $httpConnection
+            ->expects($this->once())
+            ->method('get')
+            ->willReturn(json_decode('{"status": {"code": 500,"message": "string"},"error": "string"}', true));
 
-        $request = (new \Arquivei\LiteApi\Sdk\Requests\NFe())
+        $request = (new NFeRequest())
             ->setAccessKey("string");
 
         $nfe = new NFe();
         $response = $nfe->execute($httpConnection, $request, (new Config()));
 
-        $this->assertInstanceOf(\Arquivei\LiteApi\Sdk\Responses\NFe::class, $response);
-        $this->assertInstanceOf(\Arquivei\LiteApi\Sdk\Responses\NFe\IsError::class, $response->getResponse());
+        $this->assertInstanceOf(NFeResponse::class, $response);
+        $this->assertInstanceOf(NFeResponse\IsError::class, $response->getResponse());
 
-        $this->assertTrue(method_exists($response->getResponse(),'getError'));
+        $this->assertTrue(method_exists($response->getResponse(), 'getError'));
 
         $this->assertEquals(500, $response->getStatus()->getCode());
         $this->assertEquals("string", $response->getStatus()->getMessage());
@@ -87,7 +71,7 @@ class EndpointTest extends TestCase
             ->method('get')
             ->willThrowException(new HttpConnectionException());
 
-        $request = (new \Arquivei\LiteApi\Sdk\Requests\NFe())
+        $request = (new NFeRequest())
             ->setAccessKey("string");
 
         $nfe = new NFe();
@@ -100,7 +84,7 @@ class EndpointTest extends TestCase
 
         $httpConnection = $this->createMock(HttpInterface::class);
 
-        $request = (new \Arquivei\LiteApi\Sdk\Requests\NFe())
+        $request = (new NFeRequest())
             ->setAccessKey("string");
 
         $config = $this->createMock(Config::class);
