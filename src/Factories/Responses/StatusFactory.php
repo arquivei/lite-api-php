@@ -10,17 +10,17 @@ class StatusFactory
     public function createFromArray(array $httpResponse): Status
     {
         if ($httpResponse['status']['code'] == 200) {
-            $statusSucessfullyResponse = new Status(new Status\IsSuccess());
+            $statusSuccessfullyResponse = new Status(new Status\IsSuccess());
 
-            $statusSucessfullyResponse->setStatus(
+            $statusSuccessfullyResponse->setStatus(
                 (new HttpStatus())
                     ->setCode($httpResponse['status']['code'])->setMessage($httpResponse['status']['message'])
             );
 
-            $statusSucessfullyResponse->getResponse()->setAccessKey($httpResponse['data']['access_key']);
-            $statusSucessfullyResponse->getResponse()->setStatus($httpResponse['data']['status']);
+            $statusSuccessfullyResponse->getResponse()->setAccessKey($httpResponse['data']['access_key']);
+            $statusSuccessfullyResponse->getResponse()->setStatus($httpResponse['data']['status']);
 
-            return $statusSucessfullyResponse;
+            return $statusSuccessfullyResponse;
         }
 
         $statusErrorResponse = new Status(new Status\IsError());

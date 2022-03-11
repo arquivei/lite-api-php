@@ -4,44 +4,39 @@ namespace Arquivei\LiteApi\Sdk\Tests\Status;
 
 use Arquivei\LiteApi\Sdk\Config;
 use Arquivei\LiteApi\Sdk\Dependencies\HttpInterface;
-use Arquivei\LiteApi\Sdk\Endpoints\NFe;
 use Arquivei\LiteApi\Sdk\Endpoints\Status;
 use Arquivei\LiteApi\Sdk\Exceptions\HttpConnectionException;
 use Arquivei\LiteApi\Sdk\Exceptions\UnreadableConfigException;
+use Arquivei\LiteApi\Sdk\Requests\Status as StatusRequest;
+use Arquivei\LiteApi\Sdk\Responses\Status as StatusResponse;
 use PHPUnit\Framework\TestCase;
 
 class EndpointTest extends TestCase
 {
     public function testIsSuccessfullyResponseFlow()
     {
-
         $httpConnection = $this->createMock(HttpInterface::class);
-        $httpConnection->expects($this->once())->method('get')->willReturn(
-            json_decode(
-                '{
-                          "status": {
-                            "code": 200,
-                            "message": "string"
-                          },
-                          "data": {
-                            "access_key": "string",
-                            "status": "string"
-                          }
-                      }'
-            , true)
-        );
+        $httpConnection
+            ->expects($this->once())
+            ->method('get')
+            ->willReturn(
+                json_decode(
+                    '{"status": {"code": 200,"message": "string"},"data": {"access_key": "string","status": "string"}}',
+                    true
+                )
+            );
 
-        $request = (new \Arquivei\LiteApi\Sdk\Requests\Status())
+        $request = (new StatusRequest())
             ->setAccessKey("string");
 
         $status = new Status();
         $response = $status->execute($httpConnection, $request, (new Config()));
 
-        $this->assertInstanceOf(\Arquivei\LiteApi\Sdk\Responses\Status::class, $response);
-        $this->assertInstanceOf(\Arquivei\LiteApi\Sdk\Responses\Status\IsSuccess::class, $response->getResponse());
+        $this->assertInstanceOf(StatusResponse::class, $response);
+        $this->assertInstanceOf(StatusResponse\IsSuccess::class, $response->getResponse());
 
-        $this->assertTrue(method_exists($response->getResponse(),'getAccessKey'));
-        $this->assertTrue(method_exists($response->getResponse(),'getStatus'));
+        $this->assertTrue(method_exists($response->getResponse(), 'getAccessKey'));
+        $this->assertTrue(method_exists($response->getResponse(), 'getStatus'));
 
         $this->assertEquals(200, $response->getStatus()->getCode());
         $this->assertEquals("string", $response->getStatus()->getMessage());
@@ -51,30 +46,22 @@ class EndpointTest extends TestCase
 
     public function testIsNotSuccessfullyResponseFlow()
     {
-
         $httpConnection = $this->createMock(HttpInterface::class);
-        $httpConnection->expects($this->once())->method('get')->willReturn(
-            json_decode(
-                '{
-                          "status": {
-                            "code": 500,
-                            "message": "string"
-                          },
-                          "errors": "string"
-                       }'
-                , true)
-        );
+        $httpConnection
+            ->expects($this->once())
+            ->method('get')
+            ->willReturn(json_decode('{"status": {"code": 500,"message": "string"},"error": "string"}', true));
 
-        $request = (new \Arquivei\LiteApi\Sdk\Requests\Status())
+        $request = (new StatusRequest())
             ->setAccessKey("string");
 
         $status = new Status();
         $response = $status->execute($httpConnection, $request, (new Config()));
 
-        $this->assertInstanceOf(\Arquivei\LiteApi\Sdk\Responses\Status::class, $response);
-        $this->assertInstanceOf(\Arquivei\LiteApi\Sdk\Responses\Status\IsError::class, $response->getResponse());
+        $this->assertInstanceOf(StatusResponse::class, $response);
+        $this->assertInstanceOf(StatusResponse\IsError::class, $response->getResponse());
 
-        $this->assertTrue(method_exists($response->getResponse(),'getError'));
+        $this->assertTrue(method_exists($response->getResponse(), 'getError'));
 
         $this->assertEquals(500, $response->getStatus()->getCode());
         $this->assertEquals("string", $response->getStatus()->getMessage());
@@ -91,11 +78,11 @@ class EndpointTest extends TestCase
             ->method('get')
             ->willThrowException(new HttpConnectionException());
 
-        $request = (new \Arquivei\LiteApi\Sdk\Requests\NFe())
+        $request = (new StatusRequest())
             ->setAccessKey("string");
 
-        $nfe = new NFe();
-        $nfe->execute($httpConnection, $request, (new Config()));
+        $status = new Status();
+        $status->execute($httpConnection, $request, (new Config()));
     }
 
     public function testExpectUnreadableException()
@@ -104,7 +91,7 @@ class EndpointTest extends TestCase
 
         $httpConnection = $this->createMock(HttpInterface::class);
 
-        $request = (new \Arquivei\LiteApi\Sdk\Requests\NFe())
+        $request = (new StatusRequest())
             ->setAccessKey("string");
 
         $config = $this->createMock(Config::class);
@@ -112,7 +99,7 @@ class EndpointTest extends TestCase
             ->method('getLiteApiHost')
             ->willThrowException(new UnreadableConfigException());
 
-        $nfe = new NFe();
-        $nfe->execute($httpConnection, $request, $config);
+        $status = new Status();
+        $status->execute($httpConnection, $request, $config);
     }
 }

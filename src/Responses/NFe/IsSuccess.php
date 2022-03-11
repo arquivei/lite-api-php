@@ -6,7 +6,7 @@ use Arquivei\LiteApi\Sdk\Responses\BehaviorInterface;
 
 class IsSuccess implements BehaviorInterface
 {
-    private /** string */ $xml;
+    private string $xml;
 
     public function getXml(): string
     {

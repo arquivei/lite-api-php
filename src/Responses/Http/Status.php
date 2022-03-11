@@ -4,8 +4,8 @@ namespace Arquivei\LiteApi\Sdk\Responses\Http;
 
 class Status
 {
-    private /** int */ $code;
-    private /** string */ $message;
+    private int $code;
+    private string $message;
 
     public function getCode(): int
     {

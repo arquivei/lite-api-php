@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Arquivei\LiteApi\Sdk\Endpoints;
 
 use Arquivei\LiteApi\Sdk\Config;
@@ -32,7 +31,7 @@ class NFe
                 ]
             );
 
-            return (new NFeFactory)->createFromArray($httpResponse);
+            return (new NFeFactory())->createFromArray($httpResponse);
         } catch (\Exception $exception) {
             throw $exception;
         }

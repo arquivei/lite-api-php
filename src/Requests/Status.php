@@ -4,7 +4,7 @@ namespace Arquivei\LiteApi\Sdk\Requests;
 
 class Status
 {
-    private /** string */ $accessKey;
+    private string $accessKey;
 
     public function getAccessKey(): string
     {

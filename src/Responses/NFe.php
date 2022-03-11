@@ -6,8 +6,8 @@ use Arquivei\LiteApi\Sdk\Responses\Http\Status;
 
 class NFe
 {
-    private /** Responses/Http/Status */ $status;
-    private /**  BehaviorInterface */ $response;
+    private Status $status;
+    private BehaviorInterface $response;
 
     public function __construct(BehaviorInterface $response)
     {

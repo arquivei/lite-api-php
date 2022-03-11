@@ -31,7 +31,7 @@ class Status
                 ]
             );
 
-            return (new StatusFactory)->createFromArray($httpResponse);
+            return (new StatusFactory())->createFromArray($httpResponse);
         } catch (\Exception $exception) {
             throw $exception;
         }

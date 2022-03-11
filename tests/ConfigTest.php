@@ -1,12 +1,15 @@
 <?php
 
-use Arquivei\LiteApi\Sdk\Tests;
+namespace Arquivei\LiteApi\Sdk\Tests;
 
-class ConfigTest extends \PHPUnit\Framework\TestCase
+use Arquivei\LiteApi\Sdk\Config;
+use PHPUnit\Framework\TestCase;
+
+class ConfigTest extends TestCase
 {
     public function testHasConfigNeedleMethods()
     {
-        $config = new \Arquivei\LiteApi\Sdk\Config();
+        $config = new Config();
 
         $this->assertTrue(method_exists($config, 'getLiteApiHost'));
         $this->assertTrue(method_exists($config, 'getLiteApiEndpointConsultNFe'));

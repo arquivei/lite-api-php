@@ -11,15 +11,15 @@ class NFeFactory
     public function createFromArray(array $httpResponse): NFe
     {
         if ($httpResponse['status']['code'] == 200) {
-            $nfeSucessfullyResponse = new NFeResponse(new NFeResponse\IsSuccess());
+            $nfeSuccessfullyResponse = new NFeResponse(new NFeResponse\IsSuccess());
 
-            $nfeSucessfullyResponse->setStatus(
+            $nfeSuccessfullyResponse->setStatus(
                 (new Status())->setCode($httpResponse['status']['code'])->setMessage($httpResponse['status']['message'])
             );
 
-            $nfeSucessfullyResponse->getResponse()->setXml($httpResponse['data']['xml']);
+            $nfeSuccessfullyResponse->getResponse()->setXml($httpResponse['data']['xml']);
 
-            return $nfeSucessfullyResponse;
+            return $nfeSuccessfullyResponse;
         }
 
         $nfeErrorResponse = new NFeResponse(new NFeResponse\IsError());

@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Arquivei\LiteApi\Sdk\Dependencies;
 
 use GuzzleHttp\Client;
@@ -8,7 +7,7 @@ use GuzzleHttp\Exception\ClientException;
 
 class HttpGuzzleAdapter implements HttpInterface
 {
-    private /** Client */ $client;
+    private Client $client;
 
     public function __construct(Client $client)
     {
