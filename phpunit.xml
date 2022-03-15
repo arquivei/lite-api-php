@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" backupGlobals="false" backupStaticAttributes="false" bootstrap="bootstrap.php" colors="true" convertErrorsToExceptions="true" convertNoticesToExceptions="true" convertWarningsToExceptions="true" processIsolation="false" stopOnError="false" stopOnFailure="false" verbose="true" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd">
+  <coverage includeUncoveredFiles="false">
+    <include>
+      <directory suffix=".php">./src/</directory>
+    </include>
+  </coverage>
+  <testsuites>
+    <testsuite name="Test Suite">
+      <directory suffix="Test.php">./tests/</directory>
+    </testsuite>
+  </testsuites>
+  <php>
+    <env name="LITE_API_HOST" value="https://lite-api.arquivei.com.br"/>
+    <env name="LITE_API_ENDPOINT_CONSULT_NFE" value="v1/nfe"/>
+    <env name="LITE_API_ENDPOINT_CONSULT_STATUS" value="/v1/nfe/status"/>
+    <env name="LITE_API_HEADER_CREDENTIAL_ID" value="A"/>
+    <env name="LITE_API_HEADER_CREDENTIAL_KEY" value="B"/>
+    <env name="LITE_API_HEADER_CONTENT_TYPE" value="application/json"/>
+  </php>
+</phpunit>
